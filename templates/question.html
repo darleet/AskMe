@@ -58,6 +58,8 @@
 
     {% for answer in answers %}
       {% include "layouts/answer_card.html" with answer=answer %}
+    {% empty %}
+      <p>No answers yet</p>
     {% endfor %}
 
     <nav aria-label="Page navigation example">
