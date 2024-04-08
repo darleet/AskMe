@@ -32,3 +32,7 @@ def question(request, question_id):
     page = paginator.page(page_num)
     return render(request, 'question.html',
                   {'question': QUESTIONS[question_id], 'answers': page})
+
+
+def new_question(request):
+    return render(request, 'new_question.html')

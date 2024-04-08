@@ -1,0 +1,56 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+
+  <h1 class="fs-3 mb-3">New question</h1>
+
+  <div class="col-8">
+
+    <form method="post" enctype="multipart/form-data" class="w-75">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label for="question-title" class="col-form-label">Title</label>
+        <input
+            type="text"
+            id="question-title"
+            name="title"
+            class="form-control"
+            placeholder="e.g. How can I exit from Vim?"
+            minlength="1"
+            maxlength="150"
+        >
+        <div class="form-text">Must be 1-150 characters long</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="question-text" class="col-form-label">Text</label>
+        <textarea
+            id="question-text"
+            name="text"
+            cols="30"
+            rows="8"
+            class="form-control"
+            placeholder="Details on the problem"
+            minlength="20"
+            maxlength="1000"></textarea>
+        <div class="form-text">Specify your problem as much as possible, at least 20 characters</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="question-tags" class="col-form-label">Tags</label>
+        <input
+            list="tags"
+            id="question-tags"
+            name="tags"
+            class="form-control"
+            placeholder="Start typing to view tags"
+        >
+      </div>
+
+      <button type="submit" class="btn btn-primary">ASK!</button>
+    </form>
+  
+  </div>
+
+{% endblock %}
