@@ -11,50 +11,9 @@
 
   <div class="col-8">
 
-    <article class="card mb-4 w-100 border-0">
-      <div class="row g-0">
-        <div class="col-3">
-          <div class="border rounded w-100 mb-3 ratio ratio-1x1">
-            <img
-                src="img.png"
-                class="img-fluid rounded object-fit-cover"
-                alt=""
-            />
-          </div>
-          <div class="input-group flex-nowrap">
-            <input type="number" value="5" class="form-control"/>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card-body h-100 p-0 px-3">
-            <div class="mb-3">
-              <p class="card-text">
-                This is a wider card with supporting text below as a natural
-                lead-in to additional content. This content is a little bit
-                longer.This is a wider card with supporting text below as a natural
-                lead-in to additional content. This content is a little bit
-                longer.This is a wider card with supporting text below as a natural
-                lead-in to addiThis is a wider card with supporting text below as a natural
-                lead-in to additional content.
-              </p>
-            </div>
-            <div>
-              <span>Tags:</span>
-              <a href="/tag.html">tag</a>
-              <a href="/tag.html">tag</a>
-              <a href="/tag.html">tag</a>
-              <a href="/tag.html">tag</a>
-              <a href="/tag.html">tag</a>
-              <a href="/tag.html">tag</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </article>
+    {% include 'layouts/question_card.html' with question=question %}
 
     <h2 class="mb-3 fs-4">Answers</h2>
-
-
 
     {% for answer in answers %}
       {% include "layouts/answer_card.html" with answer=answer %}
