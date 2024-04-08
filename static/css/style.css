@@ -1,3 +1,7 @@
 .badge {
     text-decoration: none;
 }
+
+body {
+    margin-bottom: 30px;
+}
