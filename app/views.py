@@ -30,5 +30,5 @@ def question(request, question_id):
     page_num = request.GET.get('page', 1)
     paginator = Paginator(ANSWERS, 5)
     page = paginator.page(page_num)
-    return render(request, 'question.html', {
-        'question': QUESTIONS[question_id], 'answers': page})
+    return render(request, 'question.html',
+                  {'question': QUESTIONS[question_id], 'answers': page})
