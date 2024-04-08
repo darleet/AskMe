@@ -4,7 +4,9 @@
 {% block content %}
 
   <h1 class="fs-3 mb-3">
-    <a href="/question.html" class="text-black text-decoration-none">Question?</a>
+    <a href="{% url 'question' question.id %}" class="text-black text-decoration-none">
+      {{ question.title }}
+    </a>
   </h1>
 
   <hr>
