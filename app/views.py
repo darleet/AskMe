@@ -1,3 +1,5 @@
+import datetime
+
 from django.core.paginator import Paginator
 from django.shortcuts import render
 
@@ -7,7 +9,9 @@ QUESTIONS = [
     {
         "id": i,
         "title": f"Question {i}",
-        "text": f"This is question number {i}"
+        "text": f"This is question number {i}",
+        "creation_date": datetime.datetime.now() - datetime.timedelta(days=i),
+        "tags": [f"tag_1"],
     } for i in range(200)
 ]
 

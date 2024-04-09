@@ -3,13 +3,26 @@
 
 {% block content %}
 
-  <h1 class="fs-3 mb-3">
-    <a href="{% url 'question' question.id %}" class="text-black text-decoration-none">
-      {{ question.title }}
+  <div class="d-flex gap-3 align-items-center">
+    <h1 class="fs-3">
+      <a href="{% url 'question' question.id %}" class="text-black text-decoration-none">
+        {{ question.title }}
+      </a>
+    </h1>
+    <a href="{% url 'new_question' %}" class="ms-auto">
+      <button class="btn btn-primary ">
+        Ask Question
+      </button>
     </a>
-  </h1>
+  </div>
 
-  <hr>
+  <div>
+    <small class="text-muted">
+      Asked {{ question.creation_date|timesince }} ago
+    </small>
+    <hr>
+  </div>
+
 
   <div class="col-8">
 
