@@ -1,12 +1,21 @@
 <div class="d-flex justify-content-between gap-3">
-  <div class="border">
-    <img src="img.jpg" width="50" height="50" alt=""/>
-  </div>
-  <div class="d-flex flex-column justify-content-between">
-    <div>Dr. Pepper</div>
-    <div>
-      <a href="{% url 'settings' %}">Settings</a>
-      <a href="/logout.html">Log out</a>
+    {% if True %}
+    <!-- User is logged in -->
+    <div class="border">
+        <img src="img.jpg" width="50" height="50" alt=""/>
     </div>
-  </div>
+    <div class="d-flex flex-column justify-content-between">
+        <div>Dr. Pepper</div>
+        <div>
+            <a href="{% url 'settings' %}">Settings</a>
+            <a href="/logout.html">Log out</a>
+        </div>
+    </div>
+    {% else %}
+    <!-- User is not logged in -->
+    <div>
+        <a href="/login.html">Log in</a>
+        <a href="/register.html">Register</a>
+    </div>
+    {% endif %}
 </div>
