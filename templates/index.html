@@ -6,13 +6,23 @@
 
     <div class="mb-3">
       <div class="d-flex gap-3 align-items-start">
-        <h1 class="fs-2">Questions</h1>
-        <div class="btn-group" role="group" aria-label="Questions filter">
-          <a href="{% url 'index' %}" 
-             class="btn {% if filter == 0 %} btn-secondary {% else %} btn-outline-secondary {% endif %}">New</a>
-          <a href="{% url 'hot' %}" 
-             class="btn {% if filter == 1 %} btn-secondary {% else %} btn-outline-secondary {% endif %}">Hot</a>
-        </div>
+      
+        {% if filter < 2 %}
+          
+          <h1 class="fs-2">Questions</h1>
+          <div class="btn-group" role="group" aria-label="Questions filter">
+            <a href="{% url 'index' %}"
+               class="btn {% if filter == 0 %} btn-secondary {% else %} btn-outline-secondary {% endif %}">New</a>
+            <a href="{% url 'hot' %}"
+               class="btn {% if filter == 1 %} btn-secondary {% else %} btn-outline-secondary {% endif %}">Hot</a>
+          </div>
+          
+        {% else %}
+          
+          <h1 class="fs-2">Tag: {{ tag }}</h1>
+          
+        {% endif %}
+      
         <a href="{% url 'new_question' %}" class="ms-auto">
           <button class="btn btn-primary ">
             Ask Question

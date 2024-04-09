@@ -11,7 +11,7 @@ QUESTIONS = [
         "title": f"Question {i}",
         "text": f"This is question number {i}",
         "creation_date": datetime.datetime.now() - datetime.timedelta(days=i),
-        "tags": [f"tag_1"],
+        "tags": [f"tag_{i % 5}"],
     } for i in range(200)
 ]
 
@@ -59,3 +59,12 @@ def login(request):
 
 def signup(request):
     return render(request, 'signup.html')
+
+
+def search_tag(request, tag):
+    page_num = request.GET.get('page', 1)
+    # select only questions with this tag
+    questions = [q for q in QUESTIONS if tag in q['tags']]
+    paginator = Paginator(questions, 5)
+    page = paginator.page(page_num)
+    return render(request, 'index.html', {'questions': page, 'filter': 2, 'tag': tag})
