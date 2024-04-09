@@ -6,7 +6,11 @@
 
     <div class="mb-3">
       <div class="d-flex gap-3 align-items-start">
-        <h1 class="fs-2">Tag: {{ tag }}</h1>
+        <h1 class="fs-2">Questions</h1>
+        <div class="btn-group" role="group" aria-label="Questions filter">
+          {% block filter %}
+          {% endblock %}
+        </div>
         <a href="{% url 'new_question' %}" class="ms-auto">
           <button class="btn btn-primary ">
             Ask Question
@@ -18,7 +22,7 @@
     {% for question in questions %}
       {% include "layouts/question_card.html" with question=question %}
     {% empty %}
-      <p>No questions found</p>
+      <p>No questions yet</p>
     {% endfor %}
 
     {% include "layouts/pagination.html" with page=questions %}
