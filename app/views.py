@@ -35,12 +35,12 @@ def paginate(objects, request, per_page=10):
 
 def index(request):
     page = paginate(QUESTIONS, request)
-    return render(request, 'index.html', {'questions': page, 'filter': 0})
+    return render(request, 'index.html', {'questions': page})
 
 
 def hot(request):
     page = paginate(QUESTIONS, request)
-    return render(request, 'index.html', {'questions': page, 'filter': 1})
+    return render(request, 'hot.html', {'questions': page})
 
 
 def question(request, question_id):
@@ -69,4 +69,4 @@ def search_tag(request, tag):
     # select only questions with requested tag
     questions = [q for q in QUESTIONS if tag in q['tags']]
     page = paginate(questions, request)
-    return render(request, 'index.html', {'questions': page, 'filter': 2, 'tag': tag})
+    return render(request, 'tag.html', {'questions': page, 'tag': tag})
