@@ -29,7 +29,7 @@
               <div class="col-8">
                 <span>Tags:</span>
                 {% for tag in question.tags %}
-                  <a href="{{ tag.url }}">{{ tag.name }}</a>
+                  <a href="{% url 'tag' tag %}">{{ tag }}</a>
                 {% endfor %}
               </div>
             </div>

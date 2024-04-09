@@ -1,6 +1,6 @@
 import datetime
 
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 
 
@@ -11,7 +11,7 @@ QUESTIONS = [
         "title": f"Question {i}",
         "text": f"This is question number {i}",
         "creation_date": datetime.datetime.now() - datetime.timedelta(days=i),
-        "tags": [f"tag_1"],
+        "tags": [f"tag_{i % 5}"],
     } for i in range(200)
 ]
 
@@ -23,17 +23,28 @@ ANSWERS = [
 ]
 
 
-def index(request):
+def paginate(objects, request, per_page=10):
     page_num = request.GET.get('page', 1)
-    paginator = Paginator(QUESTIONS, 5)
-    page = paginator.page(page_num)
+    paginator = Paginator(objects, per_page)
+    try:
+        page = paginator.page(page_num)
+    except (PageNotAnInteger, EmptyPage):
+        page = paginator.page(1)
+    return page
+
+
+def index(request):
+    page = paginate(QUESTIONS, request)
     return render(request, 'index.html', {'questions': page})
 
 
+def hot(request):
+    page = paginate(QUESTIONS, request)
+    return render(request, 'hot.html', {'questions': page})
+
+
 def question(request, question_id):
-    page_num = request.GET.get('page', 1)
-    paginator = Paginator(ANSWERS, 5)
-    page = paginator.page(page_num)
+    page = paginate(ANSWERS, request)
     return render(request, 'question.html',
                   {'question': QUESTIONS[question_id], 'answers': page})
 
@@ -52,3 +63,10 @@ def login(request):
 
 def signup(request):
     return render(request, 'signup.html')
+
+
+def search_tag(request, tag):
+    # select only questions with requested tag
+    questions = [q for q in QUESTIONS if tag in q['tags']]
+    page = paginate(questions, request)
+    return render(request, 'tag.html', {'questions': page, 'tag': tag})
