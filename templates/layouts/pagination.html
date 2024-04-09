@@ -1,20 +1,29 @@
 <nav aria-label="Page navigation example">
   <ul class="pagination">
     {% if page.has_previous %}
+      <span class="step-links">
+      
+      </span>
       <li class="page-item">
-        <a class="page-link" href="?page={{ page.previous_page_number }}">Previous</a>
+        <a class="page-link" href="?page=1">&laquo;</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page.previous_page_number }}">prev</a>
       </li>
     {% endif %}
     {% if page.has_other_pages %}
       <li class="page-item">
         <div class="page-link">
-          {{ page.number }}
+          page {{ page.number }} of {{ page.paginator.num_pages }}
         </div>
       </li>
     {% endif %}
     {% if page.has_next %}
       <li class="page-item">
-        <a class="page-link" href="?page={{ page.next_page_number }}">Next</a>
+        <a class="page-link" href="?page={{ page.next_page_number }}">next</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page.paginator.num_pages }}">&raquo;</a>
       </li>
     {% endif %}
   </ul>
