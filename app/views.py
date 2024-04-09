@@ -44,3 +44,7 @@ def new_question(request):
 
 def settings(request):
     return render(request, 'settings.html')
+
+
+def login(request):
+    return render(request, 'login.html')

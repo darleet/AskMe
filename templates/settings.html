@@ -8,7 +8,7 @@
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
 
-      <div class="settings-input mb-3">
+      <div class="form-field mb-3">
         <label for="login" class="col-form-label">Login</label>
         <input
             type="text"
@@ -24,7 +24,7 @@
         </div>
       </div>
 
-      <div class="settings-input mb-3">
+      <div class="form-field mb-3">
         <label for="email" class="col-form-label">Email</label>
         <input
             type="email"
@@ -37,7 +37,7 @@
         >
       </div>
 
-      <div class="settings-input mb-3">
+      <div class="form-field mb-3">
         <label for="nickname" class="col-form-label">Nickname</label>
         <input
             type="text"
@@ -53,7 +53,7 @@
         </div>
       </div>
 
-      <div class="settings-input mb-3">
+      <div class="form-field mb-3">
         <label for="avatar" class="col-form-label">Avatar</label>
         <div class="avatar-preview border rounded mb-3 ratio ratio-1x1">
           <img
