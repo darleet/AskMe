@@ -1,0 +1,78 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+
+  <h1 class="fs-3">Settings</h1>
+
+  <div class="col-8">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="settings-input mb-3">
+        <label for="login" class="col-form-label">Login</label>
+        <input
+            type="text"
+            id="login"
+            name="login"
+            class="form-control"
+            placeholder="pupkin123"
+            minlength="1"
+            maxlength="31"
+        >
+        <div class="form-text">Used for signing in, will not be visible to other users.
+          Must be 1-31 characters long
+        </div>
+      </div>
+
+      <div class="settings-input mb-3">
+        <label for="email" class="col-form-label">Email</label>
+        <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-control"
+            placeholder="pupkin@mail.ru"
+            minlength="1"
+            maxlength="63"
+        >
+      </div>
+
+      <div class="settings-input mb-3">
+        <label for="nickname" class="col-form-label">Nickname</label>
+        <input
+            type="text"
+            id="nickname"
+            name="nickname"
+            class="form-control"
+            placeholder="Vasya Pupkin"
+            minlength="1"
+            maxlength="31"
+        >
+        <div class="form-text">Your public name, will be visible for other users.
+          Must be 1-31 characters long
+        </div>
+      </div>
+
+      <div class="settings-input mb-3">
+        <label for="avatar" class="col-form-label">Avatar</label>
+        <div class="avatar-preview border rounded mb-3 ratio ratio-1x1">
+          <img
+              src="img.png"
+              class="img-fluid rounded object-fit-cover"
+              alt=""
+          />
+        </div>
+        <input
+            type="file"
+            id="avatar"
+            name="avatar"
+            accept="image/*"
+            class="form-control"
+        >
+      </div>
+
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+  </div>
+
+{% endblock %}

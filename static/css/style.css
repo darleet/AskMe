@@ -1,7 +1,16 @@
+.avatar-preview {
+    width: 100px;
+}
+
 .badge {
     text-decoration: none;
 }
 
 body {
     margin-bottom: 30px;
+}
+
+.settings-input {
+    width: 550px;
+    max-width: 100%;
 }

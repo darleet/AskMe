@@ -40,3 +40,7 @@ def question(request, question_id):
 
 def new_question(request):
     return render(request, 'new_question.html')
+
+
+def settings(request):
+    return render(request, 'settings.html')
