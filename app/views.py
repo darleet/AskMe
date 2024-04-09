@@ -27,7 +27,14 @@ def index(request):
     page_num = request.GET.get('page', 1)
     paginator = Paginator(QUESTIONS, 5)
     page = paginator.page(page_num)
-    return render(request, 'index.html', {'questions': page})
+    return render(request, 'index.html', {'questions': page, 'filter': 0})
+
+
+def hot(request):
+    page_num = request.GET.get('page', 1)
+    paginator = Paginator(QUESTIONS, 5)
+    page = paginator.page(page_num)
+    return render(request, 'index.html', {'questions': page, 'filter': 1})
 
 
 def question(request, question_id):
