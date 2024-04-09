@@ -6,6 +6,12 @@
 
   <div class="col-8">
 
+    {% if True %}
+      <div class="d-inline-block alert alert-danger" role="alert">
+        You must be logged in to ask a question
+      </div>
+    {% endif %}
+
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
 
@@ -19,6 +25,7 @@
             placeholder="e.g. How can I exit from Vim?"
             minlength="1"
             maxlength="150"
+            required
         >
         <div class="form-text">Must be 1-150 characters long</div>
       </div>
@@ -33,7 +40,8 @@
             class="form-control"
             placeholder="Details on the problem"
             minlength="20"
-            maxlength="1000"></textarea>
+            maxlength="1000"
+            required></textarea>
         <div class="form-text">Specify your problem as much as possible, at least 20 characters</div>
       </div>
 
@@ -45,6 +53,7 @@
             name="tags"
             class="form-control"
             placeholder="Start typing to view tags"
+            required
         >
       </div>
 
