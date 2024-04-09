@@ -14,8 +14,8 @@
     {% else %}
     <!-- User is not logged in -->
     <div>
-        <a href="/login.html">Log in</a>
-        <a href="/register.html">Register</a>
+        <a href="{% url 'login' %}">Log in</a>
+        <a href="{% url 'signup' %}">Register</a>
     </div>
     {% endif %}
 </div>
