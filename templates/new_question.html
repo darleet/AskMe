@@ -6,7 +6,7 @@
 
   <div class="col-8">
 
-    <form method="post" enctype="multipart/form-data" class="w-75">
+    <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
 
       <div class="mb-3">
@@ -50,7 +50,7 @@
 
       <button type="submit" class="btn btn-primary text-uppercase">ask!</button>
     </form>
-  
+
   </div>
 
 {% endblock %}
