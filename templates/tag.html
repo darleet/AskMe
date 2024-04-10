@@ -16,12 +16,12 @@
     </div>
 
     {% for question in questions %}
-      {% include "layouts/question_card.html" with question=question %}
+      {% include "components/question_card.html" with question=question %}
     {% empty %}
       <p>No questions found</p>
     {% endfor %}
 
-    {% include "layouts/pagination.html" with page=questions %}
+    {% include "components/pagination.html" with page=questions %}
 
   </div>
 
