@@ -10,3 +10,6 @@ __pycache__
 
 # Sensitive data
 *.env
+
+# Saved data
+data
