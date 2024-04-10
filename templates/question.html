@@ -26,17 +26,17 @@
 
   <div class="col-8">
 
-    {% include 'layouts/question_details.html' with question=question %}
+    {% include 'components/question_details.html' with question=question %}
 
     <h2 class="mb-3 fs-4">Answers</h2>
 
     {% for answer in answers %}
-      {% include "layouts/answer_card.html" with answer=answer %}
+      {% include "components/answer_card.html" with answer=answer %}
     {% empty %}
       <p>No answers yet</p>
     {% endfor %}
 
-    {% include "layouts/pagination.html" with page=answers %}
+    {% include "components/pagination.html" with page=answers %}
 
     <hr>
 
