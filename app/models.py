@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 
 
 class Profile(models.Model):
@@ -11,6 +13,17 @@ class Profile(models.Model):
         return self.user.get_username()
 
 
+class QuestionManager(models.Manager):
+    def get_latest(self):
+        return self.order_by('-created_at')
+
+    def get_hot(self):
+        return self.annotate(rating=models.Sum('votes__value')).order_by('-rating')
+
+    def get_by_tag(self, tag):
+        return self.filter(tags__name=tag)
+
+
 class Question(models.Model):
     title = models.CharField(max_length=150)
     text = models.TextField(max_length=1000)
@@ -18,6 +31,9 @@ class Question(models.Model):
     tags = models.ManyToManyField('Tag', related_name='questions')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    rating = models.IntegerField(default=0)
+
+    objects = QuestionManager()
 
     def __str__(self):
         return self.title
@@ -41,29 +57,25 @@ class Tag(models.Model):
         return self.name
 
 
-class QuestionVote(models.Model):
+# We don't need to separate Vote to AnswerVote and QuestionVote, we use content_type and object_id
+class Vote(models.Model):
+    SCORES = (
+        (1, "+1"),
+        (-1, "-1"),
+    )
+
     voter = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    value = models.SmallIntegerField(choices=SCORES)
+
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
 
     class Meta:
         indexes = [
-            models.Index(fields=['question']),
+            models.Index(fields=["content_type", "object_id"]),
         ]
-        unique_together = ('author', 'question')
+        unique_together = ('voter', 'content_type', 'object_id')
 
     def __str__(self):
-        return f'Vote of {self.voter} for {self.question}'
-
-
-class AnswerVote(models.Model):
-    voter = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
-
-    class Meta:
-        indexes = [
-            models.Index(fields=['answer']),
-        ]
-        unique_together = ('author', 'answer')
-
-    def __str__(self):
-        return f'Vote of {self.voter} for {self.answer}'
+        return f'Vote of {self.voter} for {self.content_type}'
