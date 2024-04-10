@@ -1,17 +1,19 @@
+from math import sqrt
+
 from django.core.management.base import BaseCommand
 from app.models import *
-
-from random import shuffle
 
 
 class Command(BaseCommand):
     help = 'Fills the database with initial data'
 
     def add_arguments(self, parser):
-        parser.add_argument('ratio', type=int, help='The ratio of data to fill')
+        parser.add_argument('ratio', type=int, help='The ratio of data to fill (should be > 1)')
 
     def handle(self, *args, **options):
         ratio = options['ratio']
+        if ratio <= 1:
+            raise ValueError('Ratio should be > 1')
 
         Tag.objects.all().delete()
         User.objects.all().delete()
@@ -65,20 +67,37 @@ class Command(BaseCommand):
         Answer.objects.bulk_create(answers)
 
         self.stdout.write(f'Creating votes...')
+        rsqrt = int(sqrt(ratio))
+
+        # ratio * 20 iterations
         qvotes = [
             QuestionVote(
-                question=questions[j],
-                voter=profiles[i],
-                value=SCORES[i // (ratio * 80)][0],
-            ) for i in range(ratio) for j in range(10)
+                question=questions[i],
+                voter=profiles[j],
+                value=SCORES[0][0],
+            ) for i in range(rsqrt * 20) for j in range(ratio - 1, ratio - i // 20, -1)
+        ] + [
+            QuestionVote(
+                question=questions[i],
+                voter=profiles[j],
+                value=SCORES[1][0],
+            ) for i in range(rsqrt * 20) for j in range(0, i // 20)
         ]
         QuestionVote.objects.bulk_create(qvotes)
+
+        # ratio * 180 iterations
         avotes = [
             AnswerVote(
-                answer=answers[j],
-                voter=profiles[i],
-                value=SCORES[i // (ratio * 80)][0],
-            ) for i in range(ratio) for j in range(100)
+                answer=answers[i],
+                voter=profiles[j],
+                value=SCORES[0][0],
+            ) for i in range(rsqrt * 180) for j in range(ratio - 1, ratio - i // 180, -1)
+        ] + [
+            AnswerVote(
+                answer=answers[i],
+                voter=profiles[j],
+                value=SCORES[1][0],
+            ) for i in range(rsqrt * 180) for j in range(0, i // 180)
         ]
         AnswerVote.objects.bulk_create(avotes)
 
