@@ -67,18 +67,18 @@ class Command(BaseCommand):
         self.stdout.write(f'Creating votes...')
         qvotes = [
             QuestionVote(
-                question=questions[i],
-                voter=profiles[i % ratio],
-                value=SCORES[i % 2][0],
-            ) for i in range(ratio * 10)
+                question=questions[j],
+                voter=profiles[i],
+                value=SCORES[i // (ratio * 80)][0],
+            ) for i in range(ratio) for j in range(10)
         ]
         QuestionVote.objects.bulk_create(qvotes)
         avotes = [
             AnswerVote(
-                answer=answers[i],
-                voter=profiles[i % ratio],
-                value=SCORES[i % 2][0],
-            ) for i in range(ratio * 100)
+                answer=answers[j],
+                voter=profiles[i],
+                value=SCORES[i // (ratio * 80)][0],
+            ) for i in range(ratio) for j in range(100)
         ]
         AnswerVote.objects.bulk_create(avotes)
 

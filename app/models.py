@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.functions import Coalesce
 
 
 class Profile(models.Model):
@@ -16,7 +17,7 @@ class QuestionManager(models.Manager):
         return self.order_by('-created_at')
 
     def get_hot(self):
-        return self.annotate(rating=models.Sum('votes__value')).order_by('-rating')
+        return self.annotate(votes=Coalesce(models.Sum('questionvote__value'), 0)).order_by('-votes')
 
     def get_by_tag(self, tag):
         return self.filter(tags__name=tag)
@@ -29,7 +30,6 @@ class Question(models.Model):
     tags = models.ManyToManyField('Tag', related_name='questions')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    rating = models.IntegerField(default=0)
 
     objects = QuestionManager()
 

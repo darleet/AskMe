@@ -3,24 +3,7 @@ import datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 
-
-# Create your views here.
-QUESTIONS = [
-    {
-        "id": i,
-        "title": f"Question {i}",
-        "text": f"This is question number {i}",
-        "creation_date": datetime.datetime.now() - datetime.timedelta(days=i),
-        "tags": [f"tag_{i % 5}"],
-    } for i in range(200)
-]
-
-ANSWERS = [
-    {
-        "id": i,
-        "text": f"This is answer number {i}"
-    } for i in range(100)
-]
+from app.models import Question
 
 
 def paginate(objects, request, per_page=10):
@@ -34,19 +17,22 @@ def paginate(objects, request, per_page=10):
 
 
 def index(request):
-    page = paginate(QUESTIONS, request)
+    questions = Question.objects.get_latest()
+    page = paginate(questions, request)
     return render(request, 'index.html', {'questions': page})
 
 
 def hot(request):
-    page = paginate(QUESTIONS, request)
+    questions = Question.objects.get_hot()
+    page = paginate(questions, request)
     return render(request, 'hot.html', {'questions': page})
 
 
 def question(request, question_id):
-    page = paginate(ANSWERS, request)
+    question_object = Question.objects.get_by_id(question_id)
+    page = paginate(question_object['answers'], request)
     return render(request, 'question.html',
-                  {'question': QUESTIONS[question_id], 'answers': page})
+                  {'question': question, 'answers': page})
 
 
 def new_question(request):
@@ -66,7 +52,6 @@ def signup(request):
 
 
 def search_tag(request, tag):
-    # select only questions with requested tag
-    questions = [q for q in QUESTIONS if tag in q['tags']]
+    questions = Question.objects.get_by_tag(tag)
     page = paginate(questions, request)
     return render(request, 'tag.html', {'questions': page, 'tag': tag})
