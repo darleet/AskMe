@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
 
 
 class Profile(models.Model):
@@ -57,25 +55,34 @@ class Tag(models.Model):
         return self.name
 
 
-# We don't need to separate Vote to AnswerVote and QuestionVote, we use content_type and object_id
-class Vote(models.Model):
-    SCORES = (
-        (1, "+1"),
-        (-1, "-1"),
-    )
+SCORES = ((1, 1), (-1, -1))
 
+
+class QuestionVote(models.Model):
     voter = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
     value = models.SmallIntegerField(choices=SCORES)
-
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
 
     class Meta:
         indexes = [
-            models.Index(fields=["content_type", "object_id"]),
+            models.Index(fields=["question"]),
         ]
-        unique_together = ('voter', 'content_type', 'object_id')
+        unique_together = ('voter', 'question')
 
     def __str__(self):
-        return f'Vote of {self.voter} for {self.content_type}'
+        return f'Vote of {self.voter} for {self.question}'
+
+
+class AnswerVote(models.Model):
+    voter = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
+    value = models.SmallIntegerField(choices=SCORES)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["answer"]),
+        ]
+        unique_together = ('voter', 'answer')
+
+    def __str__(self):
+        return f'Vote of {self.voter} for {self.answer}'
