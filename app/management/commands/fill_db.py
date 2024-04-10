@@ -58,7 +58,7 @@ class Command(BaseCommand):
         answers = [
             Answer(
                 text=f'This is answer number {i}',
-                question=questions[i % (ratio * 10)],
+                question=questions[i % ratio],
                 author=profiles[i % ratio],
             ) for i in range(ratio * 100)
         ]
