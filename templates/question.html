@@ -4,7 +4,7 @@
 {% block content %}
 
   <div class="d-flex gap-3 align-items-center">
-    <h1 class="fs-3">
+    <h1 class="fs-3 text-break">
       <a href="{% url 'question' question.id %}" class="text-black text-decoration-none">
         {{ question.title }}
       </a>
@@ -16,12 +16,20 @@
     </a>
   </div>
 
-  <div>
-    <small class="text-muted">
-      Asked {{ question.creation_date|timesince }} ago
-    </small>
-    <hr>
+  <div class="small d-flex gap-3 align-items-start mb-3">
+    <div class="">
+      Asked <strong>{{ question.created_at|timesince }}</strong> ago
+    </div>
+    <div class="">
+      Modified <strong>{{ question.updated_at|timesince }}</strong> ago
+    </div>
+    <div class="">
+      Author <strong>{{ question.author.nickname }}</strong>
+    </div>
   </div>
+
+    <hr>
+
 
 
   <div class="col-8">
