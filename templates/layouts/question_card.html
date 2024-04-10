@@ -1,39 +1,39 @@
 <article class="card mb-3 w-100">
-      <div class="row g-0">
-        <div class="col-3 p-3">
-          <div class="border rounded w-100 mb-3 ratio ratio-1x1">
-            <img
-                src="img.png"
-                class="img-fluid rounded object-fit-cover"
-                alt=""
-            />
-          </div>
-          <div class="input-group flex-nowrap">
-            <label>
-              <input type="number" value="5" class="form-control"/>
-            </label>
-          </div>
+  <div class="row g-0">
+    <div class="col-3 p-3">
+      <div class="border rounded w-100 mb-3 ratio ratio-1x1">
+        <img
+            src="img.png"
+            class="img-fluid rounded object-fit-cover"
+            alt=""
+        />
+      </div>
+      <div class="input-group flex-nowrap">
+        <label>
+          <input type="number" value="5" class="form-control"/>
+        </label>
+      </div>
+    </div>
+    <div class="col-9">
+      <div class="card-body">
+        <div class="mb-3">
+          <h5 class="card-title">
+            <a href="{% url 'question' question.id %}">{{ question.title }}</a>
+          </h5>
+          <p class="card-text">
+            {{ question.text }}
+          </p>
         </div>
-        <div class="col-9">
-          <div class="card-body">
-            <div class="mb-3">
-              <h5 class="card-title">
-                <a href="{% url 'question' question.id %}">{{ question.title }}</a>
-              </h5>
-              <p class="card-text">
-                {{ question.text }}
-              </p>
-            </div>
-            <div class="row">
-              <a class="col-4" href="{% url 'question' question.id %}">answers (3)</a>
-              <div class="col-8">
-                <span>Tags:</span>
-{#                {% for tag in question.tags %}#}
-{#                  <a href="{% url 'tag' tag %}">{{ tag }}</a>#}
-{#                {% endfor %}#}
-              </div>
-            </div>
+        <div class="row">
+          <a class="col-4" href="{% url 'question' question.id %}">answers (3)</a>
+          <div class="col-8">
+            <span>Tags:</span>
+            {% for tag in question.tags.all %}
+              <a href="{% url 'tag' tag %}">{{ tag }}</a>
+            {% endfor %}
           </div>
         </div>
       </div>
-    </article>
+    </div>
+  </div>
+</article>

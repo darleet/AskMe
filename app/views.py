@@ -3,7 +3,7 @@ import datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 
-from app.models import Question
+from app.models import Question, Answer
 
 
 def paginate(objects, request, per_page=10):
@@ -30,9 +30,9 @@ def hot(request):
 
 def question(request, question_id):
     question_object = Question.objects.get_by_id(question_id)
-    page = paginate(question_object['answers'], request)
+    page = paginate(Answer.objects.filter(question=question_object), request)
     return render(request, 'question.html',
-                  {'question': question, 'answers': page})
+                  {'question': question_object, 'answers': page})
 
 
 def new_question(request):

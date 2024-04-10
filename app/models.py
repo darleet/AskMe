@@ -22,6 +22,9 @@ class QuestionManager(models.Manager):
     def get_by_tag(self, tag):
         return self.filter(tags__name=tag)
 
+    def get_by_id(self, question_id):
+        return self.get(id=question_id)
+
 
 class Question(models.Model):
     title = models.CharField(max_length=150)
