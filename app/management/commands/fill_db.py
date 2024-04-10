@@ -75,7 +75,7 @@ class Command(BaseCommand):
                 question=questions[i],
                 voter=profiles[j],
                 value=SCORES[0][0],
-            ) for i in range(rsqrt * 20) for j in range(ratio - 1, ratio - i // 20, -1)
+            ) for i in range(rsqrt * 20) for j in range(ratio - 1, ratio - 1 - rsqrt + i // 20, -1)
         ] + [
             QuestionVote(
                 question=questions[i],
@@ -85,13 +85,15 @@ class Command(BaseCommand):
         ]
         QuestionVote.objects.bulk_create(qvotes)
 
+        print(len(qvotes))
+
         # ratio * 180 iterations
         avotes = [
             AnswerVote(
                 answer=answers[i],
                 voter=profiles[j],
                 value=SCORES[0][0],
-            ) for i in range(rsqrt * 180) for j in range(ratio - 1, ratio - i // 180, -1)
+            ) for i in range(rsqrt * 180) for j in range(ratio - 1, ratio - 1 - rsqrt + i // 180, -1)
         ] + [
             AnswerVote(
                 answer=answers[i],
@@ -100,6 +102,8 @@ class Command(BaseCommand):
             ) for i in range(rsqrt * 180) for j in range(0, i // 180)
         ]
         AnswerVote.objects.bulk_create(avotes)
+
+        print(len(avotes))
 
         self.stdout.write(
             self.style.SUCCESS(f'Database filled successfully'))
