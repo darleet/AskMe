@@ -38,7 +38,7 @@ class Question(models.Model):
     objects = QuestionManager()
 
     def get_votes(self):
-        return sum([vote.value for vote in self.questionvote_set.all()])
+        return self.questionvote_set.aggregate(votes=Coalesce(models.Sum('value'), 0))['votes']
 
     def get_answers_count(self):
         return Answer.objects.filter(question=self).count()
@@ -55,7 +55,7 @@ class Answer(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def get_votes(self):
-        return sum([vote.value for vote in self.answervote_set.all()])
+        return self.answervote_set.aggregate(votes=Coalesce(models.Sum('value'), 0))['votes']
 
     def __str__(self):
         return f'Answer of {self.author}'
